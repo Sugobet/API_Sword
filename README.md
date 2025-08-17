@@ -88,6 +88,7 @@ api结果所见即所得，右边的窗口显示api的来源js，可以立刻从
 4. 添加API剑主动请求时，添加自定义base路径的选项 ✅
 5. 优化了匹配策略，解锁API剑性能80% ✅
 6. API剑主动请求优化，避免访问危险api
-7. 解决burp默认header不携带CT字段的问题
-8. 优化响应table的tags宽度
-9. 修复sitemap的ui闪烁问题
+7. 解决burp默认header不携带CT字段的问题 ✅
+8. 优化响应table的tags宽度 ✅
+9. 修复sitemap的ui闪烁问题 ✅
+10. 添加自定义请求头可选功能 ✅
