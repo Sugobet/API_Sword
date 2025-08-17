@@ -90,3 +90,4 @@ api结果所见即所得，右边的窗口显示api的来源js，可以立刻从
 6. API剑主动请求优化，避免访问危险api
 7. 解决burp默认header不携带CT字段的问题
 8. 优化响应table的tags宽度
+9. 修复sitemap的ui闪烁问题
