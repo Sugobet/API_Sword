@@ -81,3 +81,4 @@ Thanks to everyone above for all your support of API Sword!
 8. Optimized the tag width in the response table ✅
 9. Fixed a flickering UI issue in the sitemap ✅
 10. Added optional custom request headers ✅
+11. Add automatic sorting of tags in response list ⬛️
