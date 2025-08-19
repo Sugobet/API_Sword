@@ -83,3 +83,4 @@ Thanks to everyone above for all your support of API Sword!
 10. Added optional custom request headers ✅
 11. Add automatic sorting of tags in response list ⬛️
 12. Optimize matching strategy ⬛️
+13. Add depth control to alleviate burp jams when the volume is large ⬛️
