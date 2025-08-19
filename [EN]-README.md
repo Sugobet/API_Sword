@@ -76,11 +76,11 @@ Thanks to everyone above for all your support of API Sword!
 3. Added custom response code filtering ✅
 4. Added the option to customize the base path when making API Sword active requests ✅
 5. Optimized the matching strategy, unlocking 80% of API Sword performance ✅
-6. Optimized API Sword active requests to prevent access to dangerous APIs ⬛️
+6. Optimized API Sword active requests to prevent access to dangerous APIs ✅
 7. Fixed an issue where Burp default headers did not include the CT field ✅
 8. Optimized the tag width in the response table ✅
 9. Fixed a flickering UI issue in the sitemap ✅
 10. Added optional custom request headers ✅
-11. Add automatic sorting of tags in response list ⬛️
-12. Optimize matching strategy ⬛️
+11. Add automatic sorting of tags in response list ✅
+12. Optimize matching strategy ✅
 13. Add depth control to alleviate burp jams when the volume is large ⬛️
