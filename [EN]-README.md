@@ -91,3 +91,4 @@ Thanks to everyone above for all your support of API Sword!
 15. Registered Burp uninstall handler ⬛️
 16. Add bilingual code comments in Chinese and English ⬛️
 17. Add bilingual switching in the GUI ⬛️
+18. Optimizing the UI caused burp lag and rendering issues ⬛️
