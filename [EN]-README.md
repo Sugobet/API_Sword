@@ -1,4 +1,7 @@
 # WeChat official account：APT250
+
+# Adhering to the principle of open source first and communication and learning, API Sword will be open sourced in two weeks (after September 7th) and will be listed on the Burp official plug-in store BApp Store at the same time, making it convenient for everyone to update and use it in the future.
+
 # [Burp New Classic Plugin] API Sword - Fully automatic depth collection of API interfaces in various responses
 
 ## Preface
