@@ -1,5 +1,8 @@
 [\[EN-ReadMe\]](https://github.com/Sugobet/API_Sword/blob/main/%5BEN%5D-README.md)
 # 微信公众号：APT250
+
+# 秉着开源至上、交流学习的原则，API剑将于两周后（9月7日后）开源并同时上架Burp官方插件商店BApp Store，方便大家日后更新和使用
+
 # [burp新经典插件] API剑 -  全自动深度 收集各种响应中的API接口
 
 开始之前，很抱歉我推迟了联合锻剑计划的时间，工作后的时间比较有限，我也在寻找一个时机，尽量早日推出。
