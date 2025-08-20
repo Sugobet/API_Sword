@@ -87,3 +87,7 @@ Thanks to everyone above for all your support of API Sword!
 11. Add automatic sorting of tags in response list ✅
 12. Optimize matching strategy ✅
 13. Add depth control to alleviate burp jams when the volume is large ⬛️
+14. Optimized code blocks ⬛️
+15. Registered Burp uninstall handler ⬛️
+16. Add bilingual code comments in Chinese and English ⬛️
+17. Add bilingual switching in the GUI ⬛️
