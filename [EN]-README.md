@@ -86,9 +86,8 @@ Thanks to everyone above for all your support of API Sword!
 10. Added optional custom request headers ✅
 11. Add automatic sorting of tags in response list ✅
 12. Optimize matching strategy ✅
-13. Add optional cutting source JS function to alleviate burp lag when the amount is large ⬛️
-14. Optimized code blocks ⬛️
-15. Registered Burp uninstall handler ⬛️
-16. Add bilingual code comments in Chinese and English ⬛️
-17. Add bilingual switching in the GUI ⬛️
-18. Optimizing the UI caused burp lag and rendering issues ⬛️
+13. Optimized code blocks ⬛️
+14. Registered Burp uninstall handler ⬛️
+15. Add bilingual code comments in Chinese and English ⬛️
+16. Add bilingual switching in the GUI ⬛️
+17. Optimizing the UI caused burp lag and rendering issues ⬛️
