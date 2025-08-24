@@ -42,7 +42,7 @@ This range is particularly important and it is recommended to consider it carefu
 
 After setting the range, let’s look at the Setting tab.
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/bad9daf34c75401d886b0a4101b02534.png)
+<img width="2380" height="872" alt="image" src="https://github.com/user-attachments/assets/a07438f2-06f2-4888-b010-c80ff532415f" />
 
 1. Allow active API requests
 
