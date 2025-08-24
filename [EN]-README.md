@@ -87,7 +87,8 @@ Thanks to everyone above for all your support of API Sword!
 11. Add automatic sorting of tags in response list ✅
 12. Optimize matching strategy ✅
 13. Optimized code blocks ⬛️
-14. Registered Burp uninstall handler ⬛️
+14. Registered Burp uninstall handler ✅
 15. Add bilingual code comments in Chinese and English ⬛️
 16. Add bilingual switching in the GUI ⬛️
-17. Optimizing the UI caused burp lag and rendering issues ⬛️
+17. Optimizing the UI caused burp lag and rendering issues ✅
+18. Added ability to save scopes and configurations ✅
