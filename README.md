@@ -54,7 +54,7 @@ api结果所见即所得，右边的窗口显示api的来源js，可以立刻从
 
 设置好范围后我们再看Setting选项卡
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/bad9daf34c75401d886b0a4101b02534.png)
+<img width="2380" height="872" alt="image" src="https://github.com/user-attachments/assets/a07438f2-06f2-4888-b010-c80ff532415f" />
 
 1. 允许主动对API请求
 
