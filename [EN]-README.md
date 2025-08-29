@@ -1,24 +1,30 @@
-# WeChat official account：APT250
+# WeChat Official Account: APT250
 
-# Adhering to the principle of open source first and communication and learning, API Sword will be open sourced in two weeks (after September 7th) and will be listed on the Burp official plug-in store BApp Store at the same time, making it convenient for everyone to update and use it in the future.
+# Adhering to the principles of open source and communication and learning, API Sword will be open sourced in two weeks (after September 7th) and will also be available on the Burp official plugin store (BApp Store) for easy updates and use.
 
-# [Burp New Classic Plugin] API Sword - Fully automatic depth collection of API interfaces in various responses
+# [Burp New Classic Plugin] API Sword - Fully automatic deep analysis of API interfaces in various responses
+
+The JAR package is being released and will be available for download from the Burp official plugin store after it is available.
 
 ## Preface
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/388ed286aff845ce8863640b37d4636e.png)
+This plugin combines my recent work and some of my previous experience with a $40,000 bounty for Microsoft account vulnerability APIs.
 
-Similar to many popular JavaScript and API mining tools like JS Finder and URLFinder, they are excellent tools. API Sword leverages Burp's capabilities and advantages.
+API Sword developers have used it to achieve numerous project successes and discover common 0-days. With this tool, I no longer have to manually search for any interface, path, or parameter in any JavaScript code.
+
+[Insert image description here](https://i-blog.csdnimg.cn/direct/388ed286aff845ce8863640b37d4636e.png)
+
+Similar to many popular JavaScript and API mining tools like JS Finder and URLFinder, they are excellent tools. API Sword, however, leverages Burp's capabilities and advantages. **
 
 Screenshot of the plugin's main page:
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/c23a7d7924924224810dc777c0e4e1bc.png)
+<img width="3022" height="1564" alt="image" src="https://github.com/user-attachments/assets/efe5702a-a896-421a-8a67-c31f2869ff70" />
 
-## API Sword's main features
+## API Sword's Main Features
 
-API Sword fully automatically prevents loops, extracting API and JS files within a certain range from various responses. It then performs deep API extraction and proactively requests valuable API, JS, and other files.
+API Sword automatically prevents loops, extracting API and JS files within a specified range from various responses. It then recursively extracts APIs deep within the API, proactively requesting valuable API, JS, and other files.
 
-API results are WYSIWYG. The window on the right displays the source JS file for the API, allowing you to instantly retrieve API parameter information from the JS file and then use Burp to test it with a single click of Ctrl+R.
+API results are WYSIWYG. The window on the right displays the source JS file for the API. You can immediately retrieve API parameter information from the JS file and then use Burp to test it with a single click of Ctrl+R.
 
 It's not as complex as you might think. API Sword primarily reduces the repetitive, time-consuming, and tedious task of searching for JS files, APIs, and API parameters. **
 
@@ -30,19 +36,29 @@ It's not as complex as you might think. API Sword primarily reduces the repetiti
 
 Users simply enable API Sword and set a "reasonable scope." Then, continue clicking various web system functions in their browser. All traffic will flow through Burp and ultimately be analyzed and processed by API Sword, which will then return the desired Devil Fruit.
 
-**Considering operational security risks such as OPSEC, API Sword currently does not actively fuzz parameters. If there is a need, it will be added as an optional feature in the future.**
+**Due to operational security risks such as OPSEC, API Sword currently does not actively fuzz parameters. This feature will be added as an optional feature if needed.**
+
+## How to use it?
+
+Using API Sword is very simple.
+
+1. Install the plugin in Burp version 2024 or later and ensure the plugin is running correctly.
+2. Set the scope for the plugin.
+3. Open a browser and ensure that browser traffic is flowing through Burp.
+4. Visit the target website and click and test everything you see on the website.
+5. After a while, check the results in the API Sword sitemap.
 
 ## API Sword Settings
 
-In the Scope tab, we can set the scope
+In the Scope tab, we can set the scope. The scope can be a URL, domain name, or IP address.
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/d99fe948bccf4783b1a04ea10fed64be.png)
+<img width="1926" height="1118" alt="image" src="https://github.com/user-attachments/assets/bd26e692-8876-4d3a-8e22-c4a1a73856ad" />
 
-This range is particularly important and it is recommended to consider it carefully, otherwise it is easy to scan into outer space.
+This scope is extremely important and should be carefully considered, otherwise it could easily lead to scanning into outer space.
 
-After setting the range, let’s look at the Setting tab.
+After setting the scope, let's look at the Settings tab.
 
-<img width="2380" height="872" alt="image" src="https://github.com/user-attachments/assets/a07438f2-06f2-4888-b010-c80ff532415f" />
+<img width="3022" height="866" alt="image" src="https://github.com/user-attachments/assets/8f7ebdcb-0008-4e72-a2c9-851ed0c64028" />
 
 1. Allow active API requests
 
@@ -50,46 +66,66 @@ This option is on by default and is not recommended, as it will prevent API Swor
 
 2. Use original headers
 
-This option is on by default. If you want to specifically test unauthorized API endpoints, you can turn this option off. This will prevent any cookies or session information from being carried over.
+This is on by default. If you want to specifically test unauthorized API endpoints, you can turn this option off. After turning it off, no cookies or session information will be carried.
 
-3. Immediately stop all requests
+3. Stop all requests immediately
 
-This option is off by default to prevent unexpected pauses. It is recommended to use this option in conjunction with the first option.
+This is off by default to prevent unexpected pauses. It is recommended to use this option in conjunction with the first option.
 
 4. Clear all data in the current SiteMap
 
-This button clears all site data in the API Sword SiteMap.
+This button clears all data in the API Sword site. All site data in the Map
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/d7e8eca0e2994a65b9bae2abb8554e69.png)
+![Insert image description here](https://i-blog.csdnimg.cn/direct/d7e8eca0e2994a65b9bae2abb8554e69.png)
 
-Other settings are under development and improvement. If you have any ideas, suggestions or questions, please submit an issue on GitHub.
+5. Enable active HTTP request rate
+
+Limit the time between each request
+
+6. Whether to add a custom path request to active requests
+
+If this option is enabled, API Sword will add the specified custom path to the main URL before concatenation.
+
+7. Filter out custom response codes other than 200
+
+8. Allow API Sword to actively find the baseURL from the response and concatenate the path to the baseURL
+
+9. Add custom header fields: (automatically overwrite existing header fields)
+
+10. Enable bypassing dangerous interface access (skip interfaces containing strings)
+
+11. Save scope and all settings
+
+Other settings are under development and improvement. If you have any suggestions or questions, please submit an issue on GitHub.
 
 ## Acknowledgements
 
-Thanks my `NSFOCUS mentor`
+Thanks `My NSFOCUS mentor`
 
 Thanks `mil1ln`
 
-Thanks to everyone above for all your support of API Sword!
+Thanks `everyone who provided valuable feedback and suggestions during the beta phase of API Sword.`
+
+Thanks everyone for all your support!
 
 ## TODO
 
-1. Collect a M-KING polo shirt ⬛️
-2. Added optional base URL path fuzzing ✅
-3. Added custom response code filtering ✅
-4. Added the option to customize the base path when making API Sword active requests ✅
-5. Optimized the matching strategy, unlocking 80% of API Sword performance ✅
+1. Collect a King of Clubs polo shirt ⬛️
+2. Add optional base URL path fuzzing ✅
+3. Add custom response code filtering ✅
+4. Add a custom base path option when adding API Sword active requests ✅
+5. Optimized matching strategy, unlocking 80% of API Sword performance ✅
 6. Optimized API Sword active requests to prevent access to dangerous APIs ✅
-7. Fixed an issue where Burp default headers did not include the CT field ✅
-8. Optimized the tag width in the response table ✅
-9. Fixed a flickering UI issue in the sitemap ✅
-10. Added optional custom request headers ✅
-11. Add automatic sorting of tags in response list ✅
+7. Fixed the issue where Burp default headers do not include the CT field ✅
+8. Optimized the width of tags in the response table ✅
+9. Fixed flickering UI issue in sitemap ✅
+10. Add optional custom request headers ✅
+11. Add automatic tag sorting in the response list ✅
 12. Optimize matching strategy ✅
-13. Optimized code blocks ⬛️
-14. Registered Burp uninstall handler ✅
-15. Add bilingual code comments in Chinese and English ⬛️
-16. Add bilingual switching in the GUI ⬛️
-17. Optimizing the UI caused burp lag and rendering issues ✅
-18. Added ability to save scopes and configurations ✅
-19. Add Enable active HTTP request rate ⬛️
+13. Optimize code blocks ⬛️
+14. Register Burp uninstall handler ✅
+15. Add readable code comments in both Chinese and English throughout the code ⬛️
+16. Add Chinese and English language switching to the GUI ✅
+17. Optimized the UI to address Burp lag and rendering issues ✅
+18. Added the ability to save scopes and configurations ✅
+19. Added the ability to control the active HTTP request rate ✅
