@@ -92,3 +92,4 @@ Thanks to everyone above for all your support of API Sword!
 16. Add bilingual switching in the GUI ⬛️
 17. Optimizing the UI caused burp lag and rendering issues ✅
 18. Added ability to save scopes and configurations ✅
+19. Add Enable active HTTP request rate ⬛️
