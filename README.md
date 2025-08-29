@@ -1,4 +1,4 @@
-[\[EN-ReadMe\]](https://github.com/Sugobet/API_Sword/blob/main/%5BEN%5D-README.md)
+[\[EN-ReadMe\]](https://github.com/Sugobet/API_Sword/blob/main/%5BEN%5D-README.md) <------ please read this
 # 微信公众号：APT250
 
 # 秉着开源至上、交流学习的原则，API剑将于两周后（9月7日后）开源并同时上架Burp官方插件商店BApp Store，方便大家日后更新和使用
