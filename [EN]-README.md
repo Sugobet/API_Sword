@@ -110,7 +110,7 @@ Thanks everyone for all your support!
 
 ## TODO
 
-1. Collect a King of Clubs polo shirt ⬛️
+1. Collect a NSFOCUS M-KING polo shirt ⬛️
 2. Add optional base URL path fuzzing ✅
 3. Add custom response code filtering ✅
 4. Add a custom base path option when adding API Sword active requests ✅
