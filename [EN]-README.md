@@ -12,9 +12,9 @@ This plugin combines my recent work and some of my previous experience with a $4
 
 API Sword developers have used it to achieve numerous project successes and discover common 0-days. With this tool, I no longer have to manually search for any interface, path, or parameter in any JavaScript code.
 
-[Insert image description here](https://i-blog.csdnimg.cn/direct/388ed286aff845ce8863640b37d4636e.png)
+<img width="584" height="526" alt="image" src="https://github.com/user-attachments/assets/b68064c3-69f4-47f2-a042-0164d976870a" />
 
-Similar to many popular JavaScript and API mining tools like JS Finder and URLFinder, they are excellent tools. API Sword, however, leverages Burp's capabilities and advantages. **
+Similar to many popular JavaScript and API mining tools like JS Finder and URLFinder, they are excellent tools. **API Sword, however, leverages Burp's capabilities and advantages. **
 
 Screenshot of the plugin's main page:
 
@@ -26,10 +26,10 @@ API Sword automatically prevents loops, extracting API and JS files within a spe
 
 API results are WYSIWYG. The window on the right displays the source JS file for the API. You can immediately retrieve API parameter information from the JS file and then use Burp to test it with a single click of Ctrl+R.
 
-It's not as complex as you might think. API Sword primarily reduces the repetitive, time-consuming, and tedious task of searching for JS files, APIs, and API parameters. **
+It's not as complex as you might think. **API Sword primarily reduces the repetitive, time-consuming, and tedious task of searching for JS files, APIs, and API parameters. **
 
-1. API Sword captures traffic within the Burp scope and extracts the majority of links from the HTTP responses.**
-2. API Sword cleans any links and paths extracted in the previous step and, after verification, initiates GET and POST requests to APIs, JavaScript, and other applications.**
+1. API Sword captures traffic within the Burp scope and extracts the majority of links from the HTTP responses.
+2. API Sword cleans any links and paths extracted in the previous step and, after verification, initiates GET and POST requests to APIs, JavaScript, and other applications.
 3. API Sword further processes the response to the previous active request, extracting information from the response and repeating the previous step. **API Sword has anti-loop functionality, eliminating the need to worry about infinite request loops**
 4. API Sword pushes all matching API requests and responses, as well as the JavaScript file responses from the API interface, to the API Sword's Burp GUI.
 5. API Sword automatically adds all relevant requests to Burp's target sitemap. **You can fully benefit from API Sword's benefits through features like analysis in the target sitemap.**
