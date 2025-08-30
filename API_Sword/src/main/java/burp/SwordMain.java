@@ -577,7 +577,7 @@ public class SwordMain {
     void setLang(String lang) {
         if (lang.equals("CN")) {
             Lang.setSelectedItem("CN");
-            title.setText("API剑 v1.0.1  by  NSFOCUS & APT250 --- M1n9K1n9");
+            title.setText("API剑 v1.0.2  by  NSFOCUS & APT250 --- M1n9K1n9");
 
             isReqAPI.setText("允许主动对API请求");
             isUseHeader.setText("是否使用原header");
@@ -604,7 +604,7 @@ public class SwordMain {
             threadNumLabel.setText("线程数：");
         } else {
             Lang.setSelectedItem("EN");
-            title.setText("API Sword v1.0.1  by  NSFOCUS & APT250 --- M1n9K1n9");
+            title.setText("API Sword v1.0.2  by  NSFOCUS & APT250 --- M1n9K1n9");
 
             isReqAPI.setText("Allow active API requests");
             isUseHeader.setText("Use the original header");

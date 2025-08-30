@@ -36,6 +36,7 @@ public class MyHttpHandler implements HttpHandler
     private final MontoyaApi api;
     private final List<String> ur_list;
     private final AtomicInteger _sign;
+    private final Pattern pattern = Pattern.compile("(?:\"|'|`)(((?:[a-zA-Z]{1,10}://|//)[^\"'`/]{1,}\\.[a-zA-Z]{2,}[^\"'`]{0,})|((?:/|\\.\\./|\\./)[^\"'`><,;|*()%^/\\\\\\[\\]][^\"'`><,;|()]{1,})|([a-zA-Z0-9_\\-/]{1,}/[a-zA-Z0-9_\\-/]{1,}\\.(?:[a-zA-Z]{1,4}|action)(?:[\\?|#][^\"|'|`]{0,}|))|([a-zA-Z0-9_\\-/]{1,}/[a-zA-Z0-9_\\-/]{3,}(?:[\\?|#][^\"|'|`]{0,}|))|([a-zA-Z0-9_\\-]{1,}\\.(?:\\w)(?:[\\?|#][^\"|'|`]{0,}|)))(?:\"|'|`)");
 
     private final SwordMain sM;
     private final DefaultMutableTreeNode TreeRoot;
@@ -81,15 +82,24 @@ public class MyHttpHandler implements HttpHandler
     @Override
     public ResponseReceivedAction handleHttpResponseReceived(HttpResponseReceived responseReceived)
     {
-        _sign.incrementAndGet();
-
         try {
-            executorService.submit(() -> this.get(responseReceived));
+            executorService.submit(() ->
+            {
+                _sign.incrementAndGet();
+                try {
+                    this.get(responseReceived);
+                } finally
+                {
+                   if (_sign.decrementAndGet() <= 0)
+                   {
+                       ur_list.clear();
+                   }
+                }
+            });
             // this.get(responseReceived);
         } catch (Exception e) {
             api.logging().logToError(e.toString());
         }
-        _sign.decrementAndGet();
 
         return ResponseReceivedAction.continueWith(responseReceived);
     }
@@ -99,10 +109,6 @@ public class MyHttpHandler implements HttpHandler
     {
         if (sM.isStop.isSelected())
         {
-            if (this._sign.get() <= 1)
-            {
-                ur_list.clear();
-            }
             return;
         }
         // api.logging().logToOutput(scope.toString());
@@ -144,11 +150,8 @@ public class MyHttpHandler implements HttpHandler
         if (isJss(Arrays.stream(pathList).toList().getLast()) || responseReceived.body().toString().contains("<html"))
         {
             // 提取link正则
-            String regex = "(?:\"|'|`)(((?:[a-zA-Z]{1,10}://|//)[^\"'`/]{1,}\\.[a-zA-Z]{2,}[^\"'`]{0,})|((?:/|\\.\\./|\\./)[^\"'`><,;|*()%^/\\\\\\[\\]][^\"'`><,;|()]{1,})|([a-zA-Z0-9_\\-/]{1,}/[a-zA-Z0-9_\\-/]{1,}\\.(?:[a-zA-Z]{1,4}|action)(?:[\\?|#][^\"|'|`]{0,}|))|([a-zA-Z0-9_\\-/]{1,}/[a-zA-Z0-9_\\-/]{3,}(?:[\\?|#][^\"|'|`]{0,}|))|([a-zA-Z0-9_\\-]{1,}\\.(?:\\w)(?:[\\?|#][^\"|'|`]{0,}|)))(?:\"|'|`)";
-
             List<String> extractedLinks = new ArrayList<>();
             try {
-                Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(responseReceived.bodyToString());
 
                 while (matcher.find()) {
@@ -465,10 +468,10 @@ public class MyHttpHandler implements HttpHandler
             // sM.setSiteMapPaneView();
         }
 
-        if (this._sign.get() <= 1)
-        {
-            ur_list.clear();
-        }
+//        if (this._sign.get() <= 1)
+//        {
+//            ur_list.clear();
+//        }
     }
 
     boolean isJss(String str)
