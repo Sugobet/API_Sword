@@ -58,7 +58,7 @@ This scope is extremely important and should be carefully considered, otherwise 
 
 After setting the scope, let's look at the Settings tab.
 
-<img width="3022" height="866" alt="image" src="https://github.com/user-attachments/assets/8f7ebdcb-0008-4e72-a2c9-851ed0c64028" />
+<img width="3022" height="1368" alt="image" src="https://github.com/user-attachments/assets/18596668-b4cf-4a59-b603-2c1a4b15bab8" />
 
 1. Allow active API requests
 
@@ -95,6 +95,10 @@ If this option is enabled, API Sword will add the specified custom path to the m
 10. Enable bypassing dangerous interface access (skip interfaces containing strings)
 
 11. Save scope and all settings
+
+12. Add a custom path after the API interface and before the parameters
+
+13. Control the number of threads
 
 Other settings are under development and improvement. If you have any suggestions or questions, please submit an issue on GitHub.
 
