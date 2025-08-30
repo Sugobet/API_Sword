@@ -10,6 +10,7 @@ import burp.api.montoya.ui.contextmenu.ContextMenuEvent;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.concurrent.*;
 
 
 // import static burp.api.montoya.ui.editor.EditorOptions.READ_ONLY;
@@ -27,8 +28,9 @@ public class Extension implements BurpExtension {
         this.api = montoyaApi;
 
         montoyaApi.extension().setName("NSFOCUS-API_Sword");
-        montoyaApi.logging().logToOutput("[Main]: NSFOCUS API_Sword v1.0.0 loaded!");
+        montoyaApi.logging().logToOutput("[Main]: NSFOCUS API_Sword v1.0.1 loaded!");
         montoyaApi.logging().logToOutput("[Main]: author：NSFOCUS/APT250 冯家鸣(M1n9K1n9)");
+        montoyaApi.logging().logToOutput("[Main]: github: https://github.com/Sugobet/API_Sword");
 
         // 注册上下文菜单
         montoyaApi.userInterface().registerContextMenuItemsProvider(new ContextMenuItemsProvider()
@@ -55,7 +57,8 @@ public class Extension implements BurpExtension {
         api.userInterface().registerSuiteTab("API Sword", sM.InitRootComponent(api, tableModel));
 
         // 注册http监听
-        api.http().registerHttpHandler(new MyHttpHandler(tableModel, sM.getScopeList(), api, sM));
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+        api.http().registerHttpHandler(new MyHttpHandler(tableModel, sM.getScopeList(), api, sM, executor));
 
         // 注册卸载插件处理
         api.extension().registerUnloadingHandler(new ExtensionUnloadingHandler() {

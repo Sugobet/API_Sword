@@ -55,6 +55,11 @@ public class SwordMain {
     private JButton clearSiteMap;
     private JComboBox<String> Lang;
     private JLabel fscLabel1;
+    private JTextArea backCustomPathList;
+    public JCheckBox isBackCustomPath;
+    public JTextField threadNum;
+    public JButton useTPool;
+    private JLabel threadNumLabel;
     private DefaultMutableTreeNode TreeRoot;
     // Create the JTree with the root node
     private JTree SiteMapTreeRoot;
@@ -120,7 +125,7 @@ public class SwordMain {
         scope.add(spacer2, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         swordSetting = new JPanel();
         swordSetting.setLayout(new GridLayoutManager(21, 9, new Insets(0, 0, 0, 0), -1, -1));
-        tabbedPane1.addTab("Settings", swordSetting);
+        tabbedPane1.addTab("Setting", swordSetting);
         isReqAPI = new JCheckBox();
         isReqAPI.setSelected(true);
         isReqAPI.setText("允许主动对API请求");
@@ -233,6 +238,24 @@ public class SwordMain {
         defaultComboBoxModel1.addElement("CN");
         Lang.setModel(defaultComboBoxModel1);
         swordSetting.add(Lang, new GridConstraints(0, 8, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JScrollPane scrollPane4 = new JScrollPane();
+        swordSetting.add(scrollPane4, new GridConstraints(12, 6, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        backCustomPathList = new JTextArea();
+        backCustomPathList.setText("");
+        scrollPane4.setViewportView(backCustomPathList);
+        isBackCustomPath = new JCheckBox();
+        isBackCustomPath.setActionCommand("");
+        isBackCustomPath.setText("是否在API接口后、参数前额外添加自定义路径");
+        swordSetting.add(isBackCustomPath, new GridConstraints(11, 6, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        threadNum = new JTextField();
+        threadNum.setText("1");
+        swordSetting.add(threadNum, new GridConstraints(12, 0, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_HORIZONTAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        useTPool = new JButton();
+        useTPool.setText("确定");
+        swordSetting.add(useTPool, new GridConstraints(12, 1, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        threadNumLabel = new JLabel();
+        threadNumLabel.setText("线程数：");
+        swordSetting.add(threadNumLabel, new GridConstraints(11, 0, 1, 1, GridConstraints.ANCHOR_SOUTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         title = new JLabel();
         title.setText("");
         panel1.add(title, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, 1, 1, null, null, null, 1, false));
@@ -251,6 +274,14 @@ public class SwordMain {
         pathFuzzingList.setText("api/\n" +
                 "user/v1/");
 
+        backCustomPathList.setText(";/\n" +
+                "/;\n" +
+                "/\n" +
+                "..;\n" +
+                "/..;\n" +
+                ";.js\n" +
+                "/;.js");
+
         // scope视图
         scopeList.setText("nsfocus.com.cn/\nnsfocus.com.cn:8888/api/v1\n0.0.0.0");
 
@@ -266,7 +297,7 @@ public class SwordMain {
                 tableModel.removeAll();
                 ((DefaultTreeModel) SiteMapTreeRoot.getModel()).reload();
 
-                JOptionPane.showMessageDialog(toSaveSettings.getRootPane(), "Cleared！", "Tip", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(toSaveSettings.getRootPane(), "ok！", "Tip", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -297,7 +328,7 @@ public class SwordMain {
                 api.persistence().extensionData().setBoolean("IsSetHeaders", isSetHeaders.isSelected());
                 api.persistence().extensionData().setString("SetHeaderList", setHeaderList.getText());
 
-                JOptionPane.showMessageDialog(toSaveSettings.getRootPane(), "Saved！", "Tip", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(toSaveSettings.getRootPane(), "ok！", "Tip", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -477,6 +508,10 @@ public class SwordMain {
         return pathFuzzingList.getText().lines().toList();
     }
 
+    public List<String> getBackCustomPathList() {
+        return backCustomPathList.getText().lines().toList();
+    }
+
     public String[] getStatusCodeFilterList() {
         return statusCodeFilterList.getText().split(",");
     }
@@ -542,7 +577,7 @@ public class SwordMain {
     void setLang(String lang) {
         if (lang.equals("CN")) {
             Lang.setSelectedItem("CN");
-            title.setText("API剑 v1.0.0  by  NSFOCUS & APT250 --- M1n9K1n9");
+            title.setText("API剑 v1.0.1  by  NSFOCUS & APT250 --- M1n9K1n9");
 
             isReqAPI.setText("允许主动对API请求");
             isUseHeader.setText("是否使用原header");
@@ -564,9 +599,12 @@ public class SwordMain {
                     "API剑官方GitHub仓库：https://github.com/Sugobet/API_Sword\n" +
                     "如有任何问题或建议，请提交issue，作者将会第一时间处理，万般感谢\n" +
                     "NSF也可通过企业微信联系M1n9K1n9");
+            isBackCustomPath.setText("是否在API接口后、参数前额外添加自定义路径");
+            useTPool.setText("确定");
+            threadNumLabel.setText("线程数：");
         } else {
             Lang.setSelectedItem("EN");
-            title.setText("API Sword v1.0.0  by  NSFOCUS & APT250 --- M1n9K1n9");
+            title.setText("API Sword v1.0.1  by  NSFOCUS & APT250 --- M1n9K1n9");
 
             isReqAPI.setText("Allow active API requests");
             isUseHeader.setText("Use the original header");
@@ -588,6 +626,9 @@ public class SwordMain {
                     "API Sword Official GitHub Repository: https://github.com/Sugobet/API_Sword\n" +
                     "If you have any questions or suggestions, please submit an issue. The author will address it promptly. Thank you very much."
             );
+            isBackCustomPath.setText("Add a custom path after the API interface and before the parameter");
+            useTPool.setText("Use");
+            threadNumLabel.setText("Thread number：");
         }
     }
 }

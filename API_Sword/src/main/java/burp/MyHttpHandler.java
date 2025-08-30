@@ -17,9 +17,14 @@ import burp.api.montoya.http.message.requests.HttpRequest;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,22 +35,41 @@ public class MyHttpHandler implements HttpHandler
     private final JTextArea scopeList;
     private final MontoyaApi api;
     private final List<String> ur_list;
-    private int _sign;
+    private final AtomicInteger _sign;
 
     private final SwordMain sM;
     private final DefaultMutableTreeNode TreeRoot;
 
-    public MyHttpHandler(MyTableModel tableModel, JTextArea scopeList, MontoyaApi api, SwordMain sM)
+    private final ThreadPoolExecutor executorService;
+
+    public MyHttpHandler(MyTableModel tableModel, JTextArea scopeList, MontoyaApi api, SwordMain sM, ThreadPoolExecutor executorService)
     {
 
         this.tableModel = tableModel;
         this.scopeList = scopeList;
         this.api = api;
-        this.ur_list = new ArrayList<>();
-        this._sign = 0;
+        this.ur_list = Collections.synchronizedList(new ArrayList<>());
+        this._sign = new AtomicInteger(0);
 
         this.sM = sM;
         this.TreeRoot = sM.getTreeRoot();
+
+        this.executorService = executorService;
+
+        sM.useTPool.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 自定义进程数
+                setExecutorService(Integer.parseInt(sM.threadNum.getText()));
+                JOptionPane.showMessageDialog(sM.useTPool.getRootPane(), "ok！", "Tip", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+    }
+
+    public void setExecutorService(int n)
+    {
+        executorService.setMaximumPoolSize(n);
+        executorService.setCorePoolSize(n);
     }
 
     @Override
@@ -57,14 +81,15 @@ public class MyHttpHandler implements HttpHandler
     @Override
     public ResponseReceivedAction handleHttpResponseReceived(HttpResponseReceived responseReceived)
     {
-        this._sign += 1;
+        _sign.incrementAndGet();
 
         try {
-            this.get(responseReceived);
+            executorService.submit(() -> this.get(responseReceived));
+            // this.get(responseReceived);
         } catch (Exception e) {
             api.logging().logToError(e.toString());
         }
-        this._sign -= 1;
+        _sign.decrementAndGet();
 
         return ResponseReceivedAction.continueWith(responseReceived);
     }
@@ -74,7 +99,7 @@ public class MyHttpHandler implements HttpHandler
     {
         if (sM.isStop.isSelected())
         {
-            if (this._sign <= 1)
+            if (this._sign.get() <= 1)
             {
                 ur_list.clear();
             }
@@ -210,6 +235,26 @@ public class MyHttpHandler implements HttpHandler
                                     };
                                 }
                             }
+                        }
+
+                        // 判断是否在参数前添加自定义路径
+                        if (sM.isBackCustomPath.isSelected())
+                        {
+                            String[] _lnk1 = lnk.split("\\?", 2);
+                            if (_lnk1.length == 2)
+                            {
+                                for (String pf : sM.getBackCustomPathList())
+                                {
+                                    apiList.add(result1 + _lnk1[0] + pf.strip() + "?" + _lnk1[1]);
+                                }
+                            } else
+                            {
+                                for (String pf : sM.getBackCustomPathList())
+                                {
+                                    apiList.add(result1 + _lnk1[0] + pf.strip());
+                                }
+                            }
+
                         }
                     }
                 }
@@ -373,7 +418,7 @@ public class MyHttpHandler implements HttpHandler
                 // TreeRoot.add(site1);
 
                 // 更新site map, 与add二选一
-                model.insertNodeInto(site1, TreeRoot, TreeRoot.getChildCount());
+                SwingUtilities.invokeLater(() -> model.insertNodeInto(site1, TreeRoot, TreeRoot.getChildCount()));
 
                 urlNameNode = site1;
             }
@@ -405,7 +450,9 @@ public class MyHttpHandler implements HttpHandler
                     // urlNameNode.add(newNode);
 
                     // 更新site map, 与add二选一
-                    model.insertNodeInto(newNode, urlNameNode, urlNameNode.getChildCount());
+                    DefaultMutableTreeNode finalUrlNameNode = urlNameNode;
+                    DefaultMutableTreeNode finalUrlNameNode1 = urlNameNode;
+                    SwingUtilities.invokeLater(() -> model.insertNodeInto(newNode, finalUrlNameNode, finalUrlNameNode1.getChildCount()));
 
                     nextParentNode = newNode;
 
@@ -413,12 +460,12 @@ public class MyHttpHandler implements HttpHandler
                 urlNameNode = nextParentNode;
 
                 // 通知事件
-                sM.nodeChanged(tableModel);
+                SwingUtilities.invokeLater(() -> sM.nodeChanged(tableModel));
             }
             // sM.setSiteMapPaneView();
         }
 
-        if (this._sign <= 1)
+        if (this._sign.get() <= 1)
         {
             ur_list.clear();
         }
