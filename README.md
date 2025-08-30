@@ -59,7 +59,7 @@ API剑的使用非常的简单，
 
 设置好范围后我们再看Setting选项卡
 
-<img width="3022" height="846" alt="image" src="https://github.com/user-attachments/assets/2c52d9d7-fa26-47d6-834b-1f7ba2815641" />
+<img width="3018" height="1338" alt="image" src="https://github.com/user-attachments/assets/4e67c07f-0e37-470c-881e-fa234632d30b" />
 
 1. 允许主动对API请求
 
@@ -96,6 +96,10 @@ API剑的使用非常的简单，
 10. 启用绕过危险接口访问(接口包含字符串则跳过)
 
 11. 保存范围及所有设置
+
+12. 是否在API接口后、参数前额外添加自定义路径
+
+13. 线程数量控制
 
 其它设置待开发和完善，如有任何想法建议和问题，可通过github上提issue反馈
 
