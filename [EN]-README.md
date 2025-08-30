@@ -129,3 +129,5 @@ Thanks everyone for all your support!
 17. Optimized the UI to address Burp lag and rendering issues ✅
 18. Added the ability to save scopes and configurations ✅
 19. Added the ability to control the active HTTP request rate ✅
+20. Added multi-threading functionality ✅
+21. Added custom path functionality after the interface and before the parameters ✅
