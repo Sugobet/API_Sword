@@ -92,7 +92,11 @@ public class MyHttpHandler implements HttpHandler
                 {
                    if (_sign.decrementAndGet() <= 0)
                    {
-                       ur_list.clear();
+                       // 判断队列归零，清空
+                       if (executorService.getQueue().isEmpty())
+                       {
+                           ur_list.clear();
+                       }
                    }
                 }
             });
