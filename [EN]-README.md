@@ -136,3 +136,5 @@ Thanks everyone for all your support!
 20. Added multi-threading functionality ✅
 21. Added custom path functionality after the interface and before the parameters ✅
 22. Urgently fixed the issue of anti-dead loop logic failure caused by multithreading ✅
+23. Fixed a display error issue with automatic sorting ✅
+24. Optimized the API list UI so that arrow keys will no longer interrupt spell casting when inserting data ✅
