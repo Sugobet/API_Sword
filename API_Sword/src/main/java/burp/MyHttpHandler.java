@@ -393,7 +393,8 @@ public class MyHttpHandler implements HttpHandler
             }
             // tableModel.orgAdd1(responseReceived);
 
-            tableModel.add1(new SuperHttpReqAndRes(res, responseReceived));
+            SuperHttpReqAndRes shrr = new SuperHttpReqAndRes(res, responseReceived);
+            tableModel.add1(shrr);
 
             // 添加到tree list ui
             // api.logging().logToOutput(String.valueOf(TreeRoot.getChildCount()));
@@ -462,10 +463,9 @@ public class MyHttpHandler implements HttpHandler
                 }
                 urlNameNode = nextParentNode;
 
-                // 通知事件
-                SwingUtilities.invokeLater(() -> sM.nodeChanged(tableModel));
             }
-            // sM.setSiteMapPaneView();
+            // 通知事件
+            SwingUtilities.invokeLater(() -> sM.nodeChanged(tableModel, shrr));
         }
 
 //        if (this._sign.get() <= 1)

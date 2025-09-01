@@ -104,14 +104,22 @@ public class MyTableModel extends AbstractTableModel
     {
         this.resLog.clear();
         this.orgLog.clear();
-        fireTableDataChanged();
 
-        int index = this.resLog.size();
         for (SuperHttpReqAndRes hrr : data)
         {
             add(hrr.getReq_res());
             orgAdd(hrr.getRes());
         }
+
+        fireTableDataChanged();
+    }
+
+    public synchronized void pushDisplayData1(SuperHttpReqAndRes data)
+    {
+        int index = resLog.size();
+
+        add(data.getReq_res());
+        orgAdd(data.getRes());
 
         fireTableRowsInserted(index, index);
     }
@@ -119,6 +127,11 @@ public class MyTableModel extends AbstractTableModel
     public synchronized List<SuperHttpReqAndRes> getResList()
     {
         return this._resLog;
+    }
+
+    public synchronized List<HttpRequestResponse> getResLogList()
+    {
+        return this.resLog;
     }
 
     public void removeAll()

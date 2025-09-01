@@ -125,7 +125,7 @@ public class SwordMain {
         scope.add(spacer2, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         swordSetting = new JPanel();
         swordSetting.setLayout(new GridLayoutManager(21, 9, new Insets(0, 0, 0, 0), -1, -1));
-        tabbedPane1.addTab("Setting", swordSetting);
+        tabbedPane1.addTab("Settings", swordSetting);
         isReqAPI = new JCheckBox();
         isReqAPI.setSelected(true);
         isReqAPI.setText("允许主动对API请求");
@@ -364,8 +364,9 @@ public class SwordMain {
             @Override
             public void changeSelection(int rowIndex, int columnIndex, boolean toggle, boolean extend) {
                 // show the log entry for the selected row
-                HttpRequestResponse responseReceived = tableModel.getRes(rowIndex);
-                HttpResponseReceived orgRes = tableModel.getOrgRes(rowIndex);
+                int viewRow = convertRowIndexToModel(rowIndex);
+                HttpRequestResponse responseReceived = tableModel.getRes(viewRow);
+                HttpResponseReceived orgRes = tableModel.getOrgRes(viewRow);
 
                 var req = responseReceived.request();
                 orgResponseViewer.setResponse(orgRes);
@@ -490,18 +491,21 @@ public class SwordMain {
         return SiteMapTreeRoot;
     }
 
-    public synchronized void nodeChanged(MyTableModel tableModel) {
-        var list1 = tableModel.getResList();
+    public synchronized void nodeChanged(MyTableModel tableModel, SuperHttpReqAndRes shrr) {
+        var list1 = tableModel.getResLogList();
 
-        List<SuperHttpReqAndRes> data = new ArrayList<>();
-        for (SuperHttpReqAndRes hrr : list1) {
-            // 判断点击的list的路径是否在响应的请求中
-            if (hrr.getReq_res().request().url().contains(up1)) {
-                data.add(hrr);
-            }
+        // 避免未点击tree时不更新
+        if (up1.equals("/") && shrr.getReq_res().request().url().contains(up1))
+        {
+            tableModel.pushDisplayData1(shrr);
+            return;
         }
-        // 将数据压入list显示
-        tableModel.pushDisplayData(data);
+
+        // 判断点击的list的路径是否在响应的请求中
+        if (shrr.getReq_res().request().url().contains(up1) && !list1.contains(shrr.getReq_res())) {
+            // 将数据压入list显示
+            tableModel.pushDisplayData1(shrr);
+        }
     }
 
     public List<String> getPathFuzzingList() {
@@ -577,7 +581,7 @@ public class SwordMain {
     void setLang(String lang) {
         if (lang.equals("CN")) {
             Lang.setSelectedItem("CN");
-            title.setText("API剑 v1.0.2  by  NSFOCUS & APT250 --- M1n9K1n9");
+            title.setText("API剑 v1.0.3  by  NSFOCUS & APT250 --- M1n9K1n9");
 
             isReqAPI.setText("允许主动对API请求");
             isUseHeader.setText("是否使用原header");
@@ -604,7 +608,7 @@ public class SwordMain {
             threadNumLabel.setText("线程数：");
         } else {
             Lang.setSelectedItem("EN");
-            title.setText("API Sword v1.0.2  by  NSFOCUS & APT250 --- M1n9K1n9");
+            title.setText("API Sword v1.0.3  by  NSFOCUS & APT250 --- M1n9K1n9");
 
             isReqAPI.setText("Allow active API requests");
             isUseHeader.setText("Use the original header");
