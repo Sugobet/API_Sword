@@ -139,3 +139,4 @@ Thanks everyone for all your support!
 23. Fixed a display error issue with automatic sorting ✅
 24. Optimized the API list UI so that arrow keys will no longer interrupt spell casting when inserting data ✅
 25. Completely fix the bug that caused the anti-loop logic to still fail due to multithreading ✅
+26. Add a filter ⬛️
