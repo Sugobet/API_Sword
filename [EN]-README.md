@@ -104,6 +104,8 @@ Other settings are under development and improvement. If you have any suggestion
 
 ## Acknowledgements
 
+Thanks `Microsoft`
+
 Thanks `My NSFOCUS mentor`
 
 Thanks `mil1ln`
