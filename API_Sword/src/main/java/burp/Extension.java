@@ -28,7 +28,7 @@ public class Extension implements BurpExtension {
         this.api = montoyaApi;
 
         montoyaApi.extension().setName("NSFOCUS-API_Sword");
-        montoyaApi.logging().logToOutput("[Main]: NSFOCUS API_Sword v1.0.4 loaded!");
+        montoyaApi.logging().logToOutput("[Main]: NSFOCUS API_Sword v1.0.5 loaded!");
         montoyaApi.logging().logToOutput("[Main]: author：NSFOCUS/APT250 冯家鸣(M1n9K1n9)");
         montoyaApi.logging().logToOutput("[Main]: github: https://github.com/Sugobet/API_Sword");
 

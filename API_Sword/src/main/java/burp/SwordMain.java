@@ -14,7 +14,11 @@ import burp.api.montoya.ui.editor.HttpResponseEditor;
 import static burp.api.montoya.ui.editor.EditorOptions.READ_ONLY;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.plaf.metal.MetalTreeUI;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.JTextComponent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -41,7 +45,6 @@ public class SwordMain {
     private JScrollPane siteMapPane;
     private JLabel title;
     public JCheckBox isStop;
-    private JButton clearList;
     public JCheckBox isAddPathFuzzing;
     private JTextArea pathFuzzingList;
     private JTextField statusCodeFilterList;
@@ -63,6 +66,13 @@ public class SwordMain {
     private DefaultMutableTreeNode TreeRoot;
     // Create the JTree with the root node
     private JTree SiteMapTreeRoot;
+    private JLabel filterLabel;
+    public JTextField filterContext;
+    public JComboBox<String> filterOptions;
+    private TableRowSorter<TableModel> sorter;
+    private JButton expandAll;
+    private JButton collapseAll;
+    private JButton clearAll;
 
     private String up1 = "/";
 
@@ -150,9 +160,6 @@ public class SwordMain {
         isStop.setActionCommand("");
         isStop.setText("立即停止发送所有请求(急刹车)");
         swordSetting.add(isStop, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        clearList = new JButton();
-        clearList.setText("清除当前SiteMap所有数据");
-        swordSetting.add(clearList, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane2 = new JScrollPane();
         swordSetting.add(scrollPane2, new GridConstraints(1, 5, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         pathFuzzingList = new JTextArea();
@@ -229,9 +236,6 @@ public class SwordMain {
         clearSiteMap = new JButton();
         clearSiteMap.setText("清空SiteMap的保存数据（未实现）");
         swordSetting.add(clearSiteMap, new GridConstraints(9, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        toSaveSettings = new JButton();
-        toSaveSettings.setText("保存范围及所有设置");
-        swordSetting.add(toSaveSettings, new GridConstraints(10, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         Lang = new JComboBox<>();
         final DefaultComboBoxModel<String> defaultComboBoxModel1 = new DefaultComboBoxModel<>();
         defaultComboBoxModel1.addElement("EN");
@@ -247,15 +251,18 @@ public class SwordMain {
         isBackCustomPath.setActionCommand("");
         isBackCustomPath.setText("是否在API接口后、参数前额外添加自定义路径");
         swordSetting.add(isBackCustomPath, new GridConstraints(11, 6, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        threadNum = new JTextField();
-        threadNum.setText("1");
-        swordSetting.add(threadNum, new GridConstraints(12, 0, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_HORIZONTAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        useTPool = new JButton();
-        useTPool.setText("确定");
-        swordSetting.add(useTPool, new GridConstraints(12, 1, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        toSaveSettings = new JButton();
+        toSaveSettings.setText("保存范围及所有设置");
+        swordSetting.add(toSaveSettings, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         threadNumLabel = new JLabel();
         threadNumLabel.setText("线程数：");
-        swordSetting.add(threadNumLabel, new GridConstraints(11, 0, 1, 1, GridConstraints.ANCHOR_SOUTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        swordSetting.add(threadNumLabel, new GridConstraints(10, 0, 1, 1, GridConstraints.ANCHOR_SOUTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        threadNum = new JTextField();
+        threadNum.setText("1");
+        swordSetting.add(threadNum, new GridConstraints(11, 0, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_HORIZONTAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        useTPool = new JButton();
+        useTPool.setText("确定");
+        swordSetting.add(useTPool, new GridConstraints(11, 1, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         title = new JLabel();
         title.setText("");
         panel1.add(title, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, 1, 1, null, null, null, 1, false));
@@ -270,6 +277,29 @@ public class SwordMain {
 
     public JComponent InitRootComponent(MontoyaApi api, MyTableModel tableModel) {
         JComponent panel = $$$getRootComponent$$$();
+
+        filterLabel = new JLabel();
+        filterContext = new JTextField();
+        filterContext.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filterAction();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filterAction();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filterAction();
+            }
+        });
+
+        expandAll = new JButton();
+        collapseAll = new JButton();
+        clearAll = new JButton();
 
         pathFuzzingList.setText("api/\n" +
                 "user/v1/");
@@ -288,18 +318,6 @@ public class SwordMain {
         // 设置默认环境语言
         String _lang = Locale.getDefault().getCountry();
         setLang(_lang);
-
-        clearList.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 清除site map数据
-                TreeRoot.removeAllChildren();
-                tableModel.removeAll();
-                ((DefaultTreeModel) SiteMapTreeRoot.getModel()).reload();
-
-                JOptionPane.showMessageDialog(toSaveSettings.getRootPane(), "ok！", "Tip", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
 
         // 加载范围和设置
         loadConfig(api);
@@ -377,8 +395,9 @@ public class SwordMain {
                 super.changeSelection(rowIndex, columnIndex, toggle, extend);
             }
         };
-        // 自动排序 数据错乱
+        // 自动排序
         table.setAutoCreateRowSorter(true);
+        sorter = (TableRowSorter<TableModel>) table.getRowSorter();
 
         var tc = table.getColumnModel();
         tc.getColumn(0).setPreferredWidth(5);
@@ -387,12 +406,12 @@ public class SwordMain {
         tc.getColumn(3).setPreferredWidth(7);
         tc.getColumn(4).setPreferredWidth(60);
 
-        JScrollPane listP = new JScrollPane(table);
 
-        // 右边显示来源
+        // 右边显示来源 左边显示列表
         JSplitPane orgP = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         orgP.setDividerLocation(780);
 
+        JScrollPane listP = new JScrollPane(table);
         orgP.setLeftComponent(listP);
         orgP.setRightComponent(orgResponseViewer.uiComponent());
 
@@ -465,9 +484,91 @@ public class SwordMain {
             }
         });
 
-        siteMapPane.setViewportView(SiteMapTreeRoot);
+        // 过滤器 and sitemap数据清除, 放在sitemap上面
+        JPanel filter = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+        filterOptions = new JComboBox<>();
+        final DefaultComboBoxModel<String> defaultComboBoxModel1 = new DefaultComboBoxModel<>();
+        defaultComboBoxModel1.addElement("Status Code");
+        defaultComboBoxModel1.addElement("URL");
+        defaultComboBoxModel1.addElement("Query");
+        defaultComboBoxModel1.addElement("Length");
+        defaultComboBoxModel1.addElement("Comment");
+        filterOptions.setModel(defaultComboBoxModel1);
+        filter.add(filterLabel);
+        filter.add(filterOptions);
+        filterContext.setPreferredSize(new Dimension(120, 25));
+        filter.add(filterContext);
+
+        // 展开所有节点｜收起所有节点｜清空sitemap数据, 放在sitemap下面
+        JPanel buttonMap = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+        clearAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 清除site map数据
+                TreeRoot.removeAllChildren();
+                tableModel.removeAll();
+                ((DefaultTreeModel) SiteMapTreeRoot.getModel()).reload();
+
+                JOptionPane.showMessageDialog(toSaveSettings.getRootPane(), "ok！", "Tip", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        expandAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int rowCount = SiteMapTreeRoot.getRowCount();
+                for (int i = 0; i < rowCount; i++) {
+                    SiteMapTreeRoot.expandRow(i);
+                }
+            }
+        });
+
+        collapseAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int rowCount = SiteMapTreeRoot.getRowCount();
+                for (int i = rowCount - 1; i >= 0; i--) {
+                    SiteMapTreeRoot.collapseRow(i);
+                }
+            }
+        });
+
+        buttonMap.add(expandAll);
+        buttonMap.add(collapseAll);
+        buttonMap.add(clearAll);
+
+        JPanel leftPanel = new JPanel(new BorderLayout());
+        leftPanel.add(filter, BorderLayout.NORTH);
+        leftPanel.add(buttonMap, BorderLayout.SOUTH);
+
+        JScrollPane smtrJS = new JScrollPane(SiteMapTreeRoot);
+        leftPanel.add(smtrJS, BorderLayout.CENTER);
+        siteMapPane.setViewportView(leftPanel);
 
         return panel;
+    }
+
+    void filterAction() {
+        String filText = filterContext.getText();
+        if (filText.isEmpty()) {
+            sorter.setRowFilter(null);
+            return;
+        }
+
+        String columnName = filterOptions.getSelectedItem().toString();
+        int columnIndex = filterOptions.getSelectedIndex();
+
+        switch (columnName) {
+            case "Status Code":
+            case "Length":
+                int numberValue = Integer.parseInt(filText);
+                sorter.setRowFilter(RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, numberValue, columnIndex));
+                break;
+            default:
+                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filText, columnIndex));
+        }
     }
 
     public JTextArea getScopeList() {
@@ -495,8 +596,7 @@ public class SwordMain {
         var list1 = tableModel.getResLogList();
 
         // 避免未点击tree时不更新
-        if (up1.equals("/") && shrr.getReq_res().request().url().contains(up1))
-        {
+        if (up1.equals("/") && shrr.getReq_res().request().url().contains(up1)) {
             tableModel.pushDisplayData1(shrr);
             return;
         }
@@ -581,13 +681,12 @@ public class SwordMain {
     void setLang(String lang) {
         if (lang.equals("CN")) {
             Lang.setSelectedItem("CN");
-            title.setText("API剑 v1.0.4  by  NSFOCUS & APT250 --- M1n9K1n9");
+            title.setText("API剑 v1.0.5  by  NSFOCUS & APT250 --- M1n9K1n9");
 
             isReqAPI.setText("允许主动对API请求");
             isUseHeader.setText("是否使用原header");
             isTiming.setText("启用主动http请求速率");
             isStop.setText("立即停止发送所有请求(急刹车)");
-            clearList.setText("清除当前SiteMap所有数据");
             isAddPathFuzzing.setText("是否在主动请求时额外添加自定义路径请求(一行一个，非/开头)");
             fscLabel1.setText("过滤掉非200的自定义响应码：(英文逗号隔开)");
             isBaseURLFind.setText("允许API剑主动从响应中寻找baseURL并主动对baseURL进行路径拼接");
@@ -606,15 +705,18 @@ public class SwordMain {
             isBackCustomPath.setText("是否在API接口后、参数前额外添加自定义路径");
             useTPool.setText("确定");
             threadNumLabel.setText("线程数：");
+            filterLabel.setText("过滤器:");
+            expandAll.setText("展开节点");
+            collapseAll.setText("收起节点");
+            clearAll.setText("清空数据");
         } else {
             Lang.setSelectedItem("EN");
-            title.setText("API Sword v1.0.4  by  NSFOCUS & APT250 --- M1n9K1n9");
+            title.setText("API Sword v1.0.5  by  NSFOCUS & APT250 --- M1n9K1n9");
 
             isReqAPI.setText("Allow active API requests");
             isUseHeader.setText("Use the original header");
             isTiming.setText("Enable active HTTP request rate");
             isStop.setText("Immediately stop sending all requests");
-            clearList.setText("Clear all current SiteMap data");
             isAddPathFuzzing.setText("Add a custom path for requests (not starting with /)");
             fscLabel1.setText("Filter custom response codes other than 200:");
             isBaseURLFind.setText("Allow active search for the baseURL in the response and concatenate the path to the baseURL");
@@ -633,6 +735,10 @@ public class SwordMain {
             isBackCustomPath.setText("Add a custom path after the API interface and before the parameter");
             useTPool.setText("Use");
             threadNumLabel.setText("Thread number：");
+            filterLabel.setText("filter:");
+            expandAll.setText("Expand all");
+            collapseAll.setText("Collapse all");
+            clearAll.setText("Clear all");
         }
     }
 }

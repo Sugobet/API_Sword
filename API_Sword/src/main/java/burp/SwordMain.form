@@ -100,7 +100,7 @@
           <grid id="25b9b" binding="swordSetting" layout-manager="GridLayoutManager" row-count="21" column-count="9" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Setting"/>
+              <tabbedpane title="Settings"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -150,14 +150,6 @@
                 <properties>
                   <actionCommand value=""/>
                   <text value="立即停止发送所有请求(急刹车)"/>
-                </properties>
-              </component>
-              <component id="c9f26" class="javax.swing.JButton" binding="clearList">
-                <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="清除当前SiteMap所有数据"/>
                 </properties>
               </component>
               <scrollpane id="8b131">
@@ -355,14 +347,6 @@
                   <text value="清空SiteMap的保存数据（未实现）"/>
                 </properties>
               </component>
-              <component id="738f2" class="javax.swing.JButton" binding="toSaveSettings">
-                <constraints>
-                  <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="保存范围及所有设置"/>
-                </properties>
-              </component>
               <component id="dac34" class="javax.swing.JComboBox" binding="Lang">
                 <constraints>
                   <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
@@ -398,9 +382,25 @@
                   <text value="是否在API接口后、参数前额外添加自定义路径"/>
                 </properties>
               </component>
+              <component id="738f2" class="javax.swing.JButton" binding="toSaveSettings">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="保存范围及所有设置"/>
+                </properties>
+              </component>
+              <component id="53e50" class="javax.swing.JLabel" binding="threadNumLabel">
+                <constraints>
+                  <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="线程数："/>
+                </properties>
+              </component>
               <component id="1ed01" class="javax.swing.JTextField" binding="threadNum">
                 <constraints>
-                  <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="9" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="9" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
@@ -410,18 +410,10 @@
               </component>
               <component id="99b7e" class="javax.swing.JButton" binding="useTPool">
                 <constraints>
-                  <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="确定"/>
-                </properties>
-              </component>
-              <component id="53e50" class="javax.swing.JLabel" binding="threadNumLabel">
-                <constraints>
-                  <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="线程数："/>
                 </properties>
               </component>
             </children>
