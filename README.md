@@ -1,7 +1,7 @@
 [\[EN-ReadMe\]](https://github.com/Sugobet/API_Sword/blob/main/%5BEN%5D-README.md) <------ please read this
 # 微信公众号：APT250
 
-# 秉着开源至上、交流学习的原则，API剑将于两周后（9月7日后）开源并同时上架Burp官方插件商店BApp Store，方便大家日后更新和使用
+## 秉着开源至上、交流学习的原则，API剑将于两周后（9月7日后）开源并同时上架Burp官方插件商店BApp Store，方便大家日后更新和使用，目前正在又官方进行代码审核中，相信不久后便能上线BApp Store
 
 # [burp新经典插件] API剑 -  全自动深度 收集各种响应中的API接口
 
@@ -19,7 +19,7 @@ API剑开发者利用API剑已多次在项目上获得成果及通用0day，拥�
 
 插件主页面截图：
 
-![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/c23a7d7924924224810dc777c0e4e1bc.png)
+<img width="3020" height="1582" alt="image" src="https://github.com/user-attachments/assets/e1677009-917b-4e90-a5e8-ccd067263d6e" />
 
 ## API剑的主要功能
 
@@ -144,4 +144,6 @@ API剑的使用非常的简单，
 23. 修复自动排序存在显示出错问题 ✅
 24. 优化API列表的UI，插入数据时，方向键不再会被打断施法 ✅
 25. 彻底修复因多线程导致防环逻辑依然失效的bug ✅
-26. 添加过滤器 ⬛️
+26. 添加过滤器 ✅
+27. 添加展开节点、收起所有节点 ✅
+28. 清空site map功能优化 ✅
