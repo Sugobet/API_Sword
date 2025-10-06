@@ -1,6 +1,6 @@
 # WeChat Official Account: APT250
 
-# Adhering to the principles of open source and communication and learning, API Sword will be open sourced in two weeks (after September 7th) and will also be available on the Burp official plugin store (BApp Store) for easy updates and use.
+## Adhering to the principles of open source and communication and learning, API Sword will be open sourced in two weeks (after September 7th) and will also be available on the Burp official plugin store (BApp Store) for easy updates and use. The code is currently under official review and I believe it will be available on the BApp Store soon.
 
 # [Burp New Classic Plugin] API Sword - Fully automatic deep analysis of API interfaces in various responses
 
@@ -18,7 +18,7 @@ Similar to many popular JavaScript and API mining tools like JS Finder and URLFi
 
 Screenshot of the plugin's main page:
 
-<img width="3022" height="1564" alt="image" src="https://github.com/user-attachments/assets/efe5702a-a896-421a-8a67-c31f2869ff70" />
+<img width="3022" height="1586" alt="image" src="https://github.com/user-attachments/assets/07b93662-0830-4d4e-a855-d8113a620221" />
 
 ## API Sword's Main Features
 
@@ -141,4 +141,6 @@ Thanks everyone for all your support!
 23. Fixed a display error issue with automatic sorting ✅
 24. Optimized the API list UI so that arrow keys will no longer interrupt spell casting when inserting data ✅
 25. Completely fix the bug that caused the anti-loop logic to still fail due to multithreading ✅
-26. Add a filter ⬛️
+26. Added a filter ✅
+27. Added expand nodes and collapse all nodes ✅
+28. Optimized the clear site map function ✅
