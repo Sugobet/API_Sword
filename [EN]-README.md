@@ -40,6 +40,8 @@ Users simply enable API Sword and set a "reasonable scope." Then, continue click
 
 ## How to use it?
 
+`Note: The plugin needs to run on burpsuite version 2024.7 or later; (for versions lower than 2024.7, you need to manually turn off the "Use original headers" function on the plugin settings page)`
+
 Using API Sword is very simple.
 
 1. Install the plugin in Burp version 2024 or later and ensure the plugin is running correctly.
