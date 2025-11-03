@@ -129,17 +129,19 @@ public class MyHttpHandler implements HttpHandler
         }
 
         // 处理http
-        String path = responseReceived.initiatingRequest().pathWithoutQuery();
-        // api.logging().logToOutput(path);
-        var pathList = path.split("/");
-        // api.logging().logToOutput(Arrays.toString(pathList));
-        if (pathList.length <= 1)
-        {
-            return;
-        }
+//        String path = responseReceived.initiatingRequest().pathWithoutQuery();
+//        // api.logging().logToOutput(path);
+//        var pathList = path.split("/");
+//        // api.logging().logToOutput(Arrays.toString(pathList));
+//        if (pathList.length <= 1)
+//        {
+//            return;
+//        }
+//
+//        String url1 = Arrays.stream(pathList).toList().getLast();
 
         // 过滤资源文件
-        if (isResource(Arrays.stream(pathList).toList().getLast()))
+        if (isResource(url))
         {
             return;
         }
@@ -151,8 +153,18 @@ public class MyHttpHandler implements HttpHandler
 
         // 提取api
         List<String> apiList = new ArrayList<>();
-        if (isJss(Arrays.stream(pathList).toList().getLast()) || responseReceived.body().toString().contains("<html"))
+        if (isJss(url) || responseReceived.body().toString().contains("<html"))
         {
+            // #29: proxy类型且是纯js文件，且有referer, 则将其作为baseUrl
+            if (responseReceived.toolSource().toolType().toolName().equals("Proxy") && isJss1(url))
+            {
+                String ref = responseReceived.initiatingRequest().header("Referer").value();
+                if (!ref.isEmpty())
+                {
+                    url = ref;
+                }
+            }
+
             // 提取link正则
             List<String> extractedLinks = new ArrayList<>();
             try {
@@ -481,6 +493,11 @@ public class MyHttpHandler implements HttpHandler
     boolean isJss(String str)
     {
         return str.matches(".*\\.(?:js|mjs|json|xml|html|htm|shtml|map)(?:\\?[^#\\s]*)?(?:#[^\\s]*)?$");
+    }
+
+    boolean isJss1(String str)
+    {
+        return str.matches(".*\\.(?:js|mjs|map)(?:\\?[^#\\s]*)?(?:#[^\\s]*)?$");
     }
 
     boolean isResource(String str)

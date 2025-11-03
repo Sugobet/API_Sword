@@ -3,13 +3,16 @@ package burp;
 
 import burp.api.montoya.BurpExtension;
 import burp.api.montoya.MontoyaApi;
-import burp.api.montoya.core.ToolType;
 import burp.api.montoya.extension.ExtensionUnloadingHandler;
 import burp.api.montoya.ui.contextmenu.ContextMenuItemsProvider;
 import burp.api.montoya.ui.contextmenu.ContextMenuEvent;
+import burp.api.montoya.ui.contextmenu.MessageEditorHttpRequestResponse;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.*;
 
 
@@ -22,13 +25,14 @@ public class Extension implements BurpExtension {
     private MontoyaApi api;
     private SwordMain sM;
     private MyTableModel tableModel;
+    private ThreadPoolExecutor executor;
 
     @Override
     public void initialize(MontoyaApi montoyaApi) {
         this.api = montoyaApi;
 
         montoyaApi.extension().setName("NSFOCUS-API_Sword");
-        montoyaApi.logging().logToOutput("[Main]: NSFOCUS API_Sword v1.0.5 loaded!");
+        montoyaApi.logging().logToOutput("[Main]: NSFOCUS API_Sword v1.0.6 loaded!");
         montoyaApi.logging().logToOutput("[Main]: author：NSFOCUS/APT250 冯家鸣(M1n9K1n9)");
         montoyaApi.logging().logToOutput("[Main]: github: https://github.com/Sugobet/API_Sword");
 
@@ -38,16 +42,15 @@ public class Extension implements BurpExtension {
             @Override
             public List<Component> provideMenuItems(ContextMenuEvent event)
             {
-                if (event.isFromTool(ToolType.TARGET)) {
-                    JMenuItem menuItem = new JMenuItem("API Scan");
-                    menuItem.addActionListener(l -> {
-                        montoyaApi.logging().logToOutput("[Context Menu]: API Scan");
+                // if (event.isFromTool(ToolType.TARGET)) {
 
-                        apiScan();
-                    });
-                    return List.of(menuItem);
-                }
-                return null;
+                JMenuItem menuItem = new JMenuItem("API Scan");
+                menuItem.addActionListener(l -> {
+                    montoyaApi.logging().logToOutput("[Context Menu]: API Scan");
+
+                    apiScan(event.messageEditorRequestResponse());
+                });
+                return List.of(menuItem);
             }
         });
 
@@ -57,7 +60,7 @@ public class Extension implements BurpExtension {
         api.userInterface().registerSuiteTab("API Sword", sM.InitRootComponent(api, tableModel));
 
         // 注册http监听
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+        executor = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
         api.http().registerHttpHandler(new MyHttpHandler(tableModel, sM.getScopeList(), api, sM, executor));
 
         // 注册卸载插件处理
@@ -71,8 +74,26 @@ public class Extension implements BurpExtension {
         });
     }
 
-    void apiScan()
+    void apiScan(Optional<MessageEditorHttpRequestResponse> hrrList)
     {
+        JTextArea scopeList = sM.getScopeList();
+        String scp = scopeList.getText();
 
+        // 自动添加scope
+        var hrr = hrrList.get().requestResponse();
+
+        String hurl = hrr.request().httpService().host();
+
+        if (!scp.contains(hurl))
+        {
+            scopeList.setText(scp + "\n" + hurl);
+        }
+
+        try
+        {
+            executor.submit(() -> api.http().sendRequest(hrr.request()));
+        } catch (Exception e){
+            api.logging().logToError(e);
+        }
     }
 }
