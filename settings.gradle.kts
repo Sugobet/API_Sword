@@ -1,0 +1,1 @@
+rootProject.name = "NSFOCUS-API_Sword"
