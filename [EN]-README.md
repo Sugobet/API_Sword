@@ -146,3 +146,5 @@ Thanks everyone for all your support!
 26. Added a filter ✅
 27. Added expand nodes and collapse all nodes ✅
 28. Optimized the clear site map function ✅
+29. Optimized the JavaScript concatenation logic in CDN/Cross-Site Scripting to use the referrer as the base URL. ✅
+30. Added manual scanning functionality. Manual scanning will automatically add hosts to the scope list: Right-click on a request body in Burp Suite -> Extension -> API Sword -> API Scan. ✅
