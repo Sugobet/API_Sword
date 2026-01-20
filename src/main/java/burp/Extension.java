@@ -6,11 +6,11 @@ import burp.api.montoya.MontoyaApi;
 import burp.api.montoya.extension.ExtensionUnloadingHandler;
 import burp.api.montoya.ui.contextmenu.ContextMenuItemsProvider;
 import burp.api.montoya.ui.contextmenu.ContextMenuEvent;
+import burp.api.montoya.ui.contextmenu.InvocationType;
 import burp.api.montoya.ui.contextmenu.MessageEditorHttpRequestResponse;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.*;
@@ -32,25 +32,31 @@ public class Extension implements BurpExtension {
         this.api = montoyaApi;
 
         montoyaApi.extension().setName("NSFOCUS-API_Sword");
-        montoyaApi.logging().logToOutput("[Main]: NSFOCUS API_Sword v1.0.6 loaded!");
-        montoyaApi.logging().logToOutput("[Main]: author：NSFOCUS/APT250 冯家鸣(M1n9K1n9)");
+        montoyaApi.logging().logToOutput("[Main]: NSFOCUS API_Sword v1.0.7 loaded!");
+        montoyaApi.logging().logToOutput("[Main]: author：NSFOCUS/APT250 JiaMing Feng(M1n9K1n9)");
         montoyaApi.logging().logToOutput("[Main]: github: https://github.com/Sugobet/API_Sword");
 
         // 注册上下文菜单
         montoyaApi.userInterface().registerContextMenuItemsProvider(new ContextMenuItemsProvider()
         {
             @Override
-            public List<Component> provideMenuItems(ContextMenuEvent event)
-            {
-                // if (event.isFromTool(ToolType.TARGET)) {
+            public List<Component> provideMenuItems(ContextMenuEvent event) {
+                if (event.isFrom(InvocationType.MESSAGE_EDITOR_REQUEST)
+                        || event.isFrom(InvocationType.MESSAGE_EDITOR_RESPONSE)
+                        || event.isFrom(InvocationType.MESSAGE_VIEWER_REQUEST)
+                        || event.isFrom(InvocationType.MESSAGE_VIEWER_RESPONSE))
+                {
+                    // if (event.isFromTool(ToolType.TARGET)) {
 
-                JMenuItem menuItem = new JMenuItem("API Scan");
-                menuItem.addActionListener(l -> {
-                    montoyaApi.logging().logToOutput("[Context Menu]: API Scan");
+                    JMenuItem menuItem = new JMenuItem("API Scan");
+                    menuItem.addActionListener(l -> {
+                        montoyaApi.logging().logToOutput("[Context Menu]: API Scan");
 
-                    apiScan(event.messageEditorRequestResponse());
-                });
-                return List.of(menuItem);
+                        apiScan(event.messageEditorRequestResponse());
+                    });
+                    return List.of(menuItem);
+                }
+                return null;
             }
         });
 
@@ -70,6 +76,7 @@ public class Extension implements BurpExtension {
                 sM.isStop.setSelected(true);
                 sM.isReqAPI.setSelected(false);
                 tableModel.removeAll();
+                executor.close();
             }
         });
     }

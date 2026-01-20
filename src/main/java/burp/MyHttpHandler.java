@@ -20,7 +20,6 @@ import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
@@ -323,12 +322,12 @@ public class MyHttpHandler implements HttpHandler
                 }
                 if (_sign0)
                 {
-                    api.logging().logToOutput("[Log]: 从 " + responseReceived.initiatingRequest().url() + " 获取 " + apii.strip() + "  [危险接口已跳过]");
+                    api.logging().logToOutput("[Log]:  " + responseReceived.initiatingRequest().url() + " get " + apii.strip() + "  [warning!skipped]");
                     continue;
                 }
             }
 
-            api.logging().logToOutput("[Log]: 从 " + responseReceived.initiatingRequest().url() + " 获取 " + apii.strip());
+            // api.logging().logToOutput("[Log]: 从 " + responseReceived.initiatingRequest().url() + " 获取 " + apii.strip());
 
             if (rate > 0)
             {
